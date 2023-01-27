@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -115,13 +117,28 @@ public class Order implements Serializable {
         this.quantity = quantity;
     }
 
-    
-
     @Override
     public String toString() {
         return "Order [orderId=" + orderId + ", name=" + name + ", address=" + address + ", phone=" + phone + ", rush="
                 + rush + ", comments=" + comments + ", pizza=" + pizza + ", size=" + size + ", quantity=" + quantity
                 + ", total=" + total + "]";
+    }
+
+    public String toJson() {
+        JsonObject jsonOrder = Json.createObjectBuilder()
+        .add("orderId", orderId)
+        .add("name", name)
+        .add("address", address)
+        .add("phone", phone)
+        .add("rush", rush)
+        .add("comments", comments)
+        .add("pizza", pizza)
+        .add("size", size)
+        .add("quantity", quantity)
+        .add("total", total)        
+        .build();
+
+        return jsonOrder.toString();
     }
 
     static String generateID(Integer length) {

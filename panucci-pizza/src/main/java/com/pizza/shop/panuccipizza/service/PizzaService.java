@@ -1,5 +1,7 @@
 package com.pizza.shop.panuccipizza.service;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,11 @@ public class PizzaService {
 
     @Autowired
     PizzaRepo pizzaRepo;
+
+
+    public Optional<Order> getOrder(String id) {
+        return pizzaRepo.findById(id);
+    }
 
     public Boolean validateBasket(Basket basket, BindingResult result) {
         logger.info("++ Validating submitted basket");
@@ -55,14 +62,14 @@ public class PizzaService {
         Float totalCost = calculateCost(basket, rushCost);
         order.setTotal(totalCost);
 
-        logger.info(">> Total cost of order-%s is: %.2f".formatted(order.getOrderId(), totalCost));
+        logger.info(">> Total cost of order-%s is: $%.2f".formatted(order.getOrderId(), totalCost));
 
         pizzaRepo.saveOrder(order);
 
         return order;
     }
 
-    public Float calculateCost(Basket basket, Float rushCost) {
+    static Float calculateCost(Basket basket, Float rushCost) {
 
         return Constants.PIZZAS.get(basket.getPizza()) *
                 Constants.SIZES.get(basket.getSize()) *

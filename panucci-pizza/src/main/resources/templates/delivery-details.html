@@ -15,9 +15,7 @@
       <div data-th-if="${#fields.hasErrors('*')}">
         <ol>
           <li data-th-each="err : ${#fields.detailedErrors()}" class="error">
-            <span
-              data-th-text="${err.message}"
-            ></span>
+            <span data-th-text="${err.message}"></span>
           </li>
         </ol>
       </div>
@@ -37,17 +35,13 @@
         <tr>
           <td>Phone:</td>
           <td>
-            <input type="text" data-th-field="*{phone}" required/>
+            <input type="text" data-th-field="*{phone}" required />
           </td>
         </tr>
         <tr>
           <td>Rush:</td>
           <td>
-            <input
-              type="checkbox"
-              data-th-field="*{rush}"
-              value="true"
-            />
+            <input type="checkbox" data-th-field="*{rush}" value="true" />
           </td>
         </tr>
         <tr>
@@ -64,7 +58,7 @@
         <tr>
           <td></td>
           <td>
-            <button>Cancel Order</button>
+            <button onclick="location.href='/'">Cancel Order</button>
             <input type="submit" value="Place Order" />
           </td>
         </tr>

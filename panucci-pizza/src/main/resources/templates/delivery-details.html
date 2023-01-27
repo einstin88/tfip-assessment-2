@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Enter Delivery Details</title>
+  </head>
+  <body>
+    <div class="title">
+      <h2>Order Delivery Details</h2>
+    </div>
+    <form action="/pizza/order" method="post" data-th-object="${order}">
+      <div data-th-if="${#fields.hasErrors('*')}">
+        <ol>
+          <li data-th-each="err : ${#fields.detailedErrors()}" class="error">
+            <span
+              data-th-text="${err.message}"
+            ></span>
+          </li>
+        </ol>
+      </div>
+      <table>
+        <tr>
+          <td>Name:</td>
+          <td>
+            <input type="text" data-th-field="*{name}" required />
+          </td>
+        </tr>
+        <tr>
+          <td>Address:</td>
+          <td>
+            <input type="text" data-th-field="*{address}" required />
+          </td>
+        </tr>
+        <tr>
+          <td>Phone:</td>
+          <td>
+            <input type="text" data-th-field="*{phone}" required/>
+          </td>
+        </tr>
+        <tr>
+          <td>Rush:</td>
+          <td>
+            <input
+              type="checkbox"
+              data-th-field="*{rush}"
+              value="true"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Comments:</td>
+          <td>
+            <textarea
+              data-th-field="*{comments}"
+              id=""
+              cols="30"
+              rows="10"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button>Cancel Order</button>
+            <input type="submit" value="Place Order" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

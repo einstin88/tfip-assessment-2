@@ -23,6 +23,10 @@ public class PizzaRestController {
     @Autowired
     PizzaService pizzaSvc;
 
+    /*
+     * Retrieve the order from DB
+     * - respond according to whether a record is found
+     */
     @GetMapping("/order/{orderID}")
     public ResponseEntity<String> viewOrder(
             @PathVariable String orderID) {

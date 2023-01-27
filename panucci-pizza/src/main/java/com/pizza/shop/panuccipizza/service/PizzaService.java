@@ -22,11 +22,17 @@ public class PizzaService {
     @Autowired
     PizzaRepo pizzaRepo;
 
-
+    /*
+     * Retrieve order from DB
+     */
     public Optional<Order> getOrder(String id) {
         return pizzaRepo.findById(id);
     }
 
+
+    /*
+     * Custom validation of order basket (view 0)
+     */
     public Boolean validateBasket(Basket basket, BindingResult result) {
         logger.info("++ Validating submitted basket");
         String pizza = basket.getPizza();
@@ -51,6 +57,9 @@ public class PizzaService {
         return false;
     }
 
+    /*
+     * Populate the Order object and get the total cost
+     */
     public Order processOrder(Order order, Basket basket) {
         logger.info("++ Processing Order...");
 
@@ -69,6 +78,9 @@ public class PizzaService {
         return order;
     }
 
+    /*
+     * Helper function to segregate some of the logics from the caller function
+     */
     static Float calculateCost(Basket basket, Float rushCost) {
 
         return Constants.PIZZAS.get(basket.getPizza()) *

@@ -44,13 +44,13 @@ public class PizzaService {
 
             } else {
                 String errMessage = "%s is not a valid size choice".formatted(basket.size());
-                logger.error(errMessage);
+                logger.error("--" + errMessage);
                 ObjectError err = new FieldError("sizeError", "size", errMessage);
                 result.addError(err);
             }
         } else {
             String errMessage = "%s is not a valid pizza choice".formatted(basket.pizza());
-            logger.error(errMessage);
+            logger.error("--" + errMessage);
             ObjectError err = new FieldError("sizeError", "pizza", errMessage);
             result.addError(err);
         }

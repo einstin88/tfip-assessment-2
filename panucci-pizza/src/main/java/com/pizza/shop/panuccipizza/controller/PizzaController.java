@@ -44,6 +44,17 @@ public class PizzaController {
     }
 
     /*
+     * Handles cancelling of order basket
+     */
+    @GetMapping("cancel")
+    public String cancelOrder(
+        HttpSession session
+    ) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    /*
      * - Perfom custom validation on the order basket
      * - if there is any errors, return to landing page
      * - otherwise, save basket in session and proceed to get delivery details
@@ -62,6 +73,7 @@ public class PizzaController {
 
             return "delivery-details";
         }
+        logger.error("-- Validation of received basket FAILED with %d errors".formatted(result.getAllErrors().size()));
         return "index";
     }
 

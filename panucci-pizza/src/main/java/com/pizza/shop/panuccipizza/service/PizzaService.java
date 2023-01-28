@@ -35,21 +35,21 @@ public class PizzaService {
      */
     public Boolean validateBasket(Basket basket, BindingResult result) {
         logger.info("++ Validating submitted basket");
-        String pizza = basket.getPizza();
-        String size = basket.getSize();
+        String pizza = basket.pizza();
+        String size = basket.size();
 
         if (pizza != null && Constants.PIZZAS.keySet().contains(pizza)) {
             if (size != null && Constants.SIZES.keySet().contains(size)) {
                 return true;
 
             } else {
-                String errMessage = "%s is not a valid size choice".formatted(basket.getSize());
+                String errMessage = "%s is not a valid size choice".formatted(basket.size());
                 logger.error(errMessage);
                 ObjectError err = new FieldError("sizeError", "size", errMessage);
                 result.addError(err);
             }
         } else {
-            String errMessage = "%s is not a valid pizza choice".formatted(basket.getPizza());
+            String errMessage = "%s is not a valid pizza choice".formatted(basket.pizza());
             logger.error(errMessage);
             ObjectError err = new FieldError("sizeError", "pizza", errMessage);
             result.addError(err);
@@ -63,9 +63,9 @@ public class PizzaService {
     public Order processOrder(Order order, Basket basket) {
         logger.info("++ Processing Order...");
 
-        order.setPizza(basket.getPizza());
-        order.setSize(basket.getSize());
-        order.setQuantity(basket.getQuantity());
+        order.setPizza(basket.pizza());
+        order.setSize(basket.size());
+        order.setQuantity(basket.quantity());
 
         Float rushCost = order.getRush() ? 2f : 0f;
         Float totalCost = calculateCost(basket, rushCost);
@@ -83,9 +83,9 @@ public class PizzaService {
      */
     static Float calculateCost(Basket basket, Float rushCost) {
 
-        return Constants.PIZZAS.get(basket.getPizza()) *
-                Constants.SIZES.get(basket.getSize()) *
-                basket.getQuantity() +
+        return Constants.PIZZAS.get(basket.pizza()) *
+                Constants.SIZES.get(basket.size()) *
+                basket.quantity() +
                 rushCost;
     }
 }

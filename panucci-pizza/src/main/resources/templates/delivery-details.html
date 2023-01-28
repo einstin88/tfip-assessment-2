@@ -12,11 +12,13 @@
       <h2>Order Delivery Details</h2>
     </div>
     <form action="/pizza/order" method="post" data-th-object="${order}">
-      <div data-th-if="${#fields.hasErrors('*')}">
+      <div data-th-if="${#fields.hasErrors('*')}" class="error">
         <ol>
-          <li data-th-each="err : ${#fields.detailedErrors()}" class="error">
-            <span data-th-text="${err.message}"></span>
-          </li>
+          <u>INPUT ERROR:</u>
+          <li
+            data-th-each="err : ${#fields.detailedErrors()}"
+            data-th-text="${err.message}"
+          ></li>
         </ol>
       </div>
       <table>

@@ -1,50 +1,61 @@
 package com.pizza.shop.panuccipizza.model;
 
-import java.io.Serializable;
+// import java.io.Serializable;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class Basket implements Serializable {
-    // Form fields
-    @NotNull(message = "Select ONE Pizza")
-    private String pizza;
-
+public record Basket (
+    @NotNull(message = "Select <em>ONE</em> Pizza") 
+    String pizza,
     @NotNull(message = "Select ONE Size")
-    private String size;
-
+    String size,
     @Min(value = 1, message = "Minimum quantity of ONE")
     @Max(value =  10, message = "Maximum quantity of TEN")
-    @NotNull(message = "Please enter a quantity from 1 to 10")
-    private Integer quantity;
+    @NotNull(message = "Please enter a quantity from <b>1 to 10</b>")
+    Integer quantity
+) {}
 
-    public String getPizza() {
-        return pizza;
-    }
+// public class Basket implements Serializable {
+//     // Form fields
+//     @NotNull(message = "Select <em>ONE</em> Pizza")
+//     private String pizza;
 
-    public void setPizza(String pizza) {
-        this.pizza = pizza;
-    }
+//     @NotNull(message = "Select ONE Size")
+//     private String size;
 
-    public String getSize() {
-        return size;
-    }
+//     @Min(value = 1, message = "Minimum quantity of ONE")
+//     @Max(value =  10, message = "Maximum quantity of TEN")
+//     @NotNull(message = "Please enter a quantity from <b>1 to 10</b>")
+//     private Integer quantity;
 
-    public void setSize(String size) {
-        this.size = size;
-    }
+//     public String getPizza() {
+//         return pizza;
+//     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+//     public void setPizza(String pizza) {
+//         this.pizza = pizza;
+//     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+//     public String getSize() {
+//         return size;
+//     }
 
-    @Override
-    public String toString() {
-        return "Basket [pizza=" + pizza + ", size=" + size + ", quantity=" + quantity + "]";
-    }
-}
+//     public void setSize(String size) {
+//         this.size = size;
+//     }
+
+//     public Integer getQuantity() {
+//         return quantity;
+//     }
+
+//     public void setQuantity(Integer quantity) {
+//         this.quantity = quantity;
+//     }
+
+//     @Override
+//     public String toString() {
+//         return "Basket [pizza=" + pizza + ", size=" + size + ", quantity=" + quantity + "]";
+//     }
+// }

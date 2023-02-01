@@ -36,7 +36,7 @@ public class PizzaRestController {
 
         if (order.isPresent()) {
             String data = order.get().toJson();
-            logger.info(data);
+            logger.info(">> Order found: " + data);
             return ResponseEntity
                     .ok(data);
         }

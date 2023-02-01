@@ -12,11 +12,13 @@
       <h2>Order Delivery Details</h2>
     </div>
     <form action="/pizza/order" method="post" data-th-object="${order}">
-      <div data-th-if="${#fields.hasErrors('*')}">
+      <div data-th-if="${#fields.hasErrors('*')}" class="error">
         <ol>
-          <li data-th-each="err : ${#fields.detailedErrors()}" class="error">
-            <span data-th-text="${err.message}"></span>
-          </li>
+          <u>INPUT ERROR:</u>
+          <li
+            data-th-each="err : ${#fields.detailedErrors()}"
+            data-th-text="${err.message}"
+          ></li>
         </ol>
       </div>
       <table>
@@ -33,7 +35,11 @@
           </td>
         </tr>
         <tr>
-          <td>Phone:</td>
+          <td>
+            <label
+              data-th-for="${#ids.next('phone')}"
+            >Phone: </label>
+          </td>
           <td>
             <input type="text" data-th-field="*{phone}" required />
           </td>
@@ -58,7 +64,7 @@
         <tr>
           <td></td>
           <td>
-            <button onclick="location.href='/'">Cancel Order</button>
+            <button onclick="location.href='/cancel'">Cancel Order</button>
             <input type="submit" value="Place Order" />
           </td>
         </tr>

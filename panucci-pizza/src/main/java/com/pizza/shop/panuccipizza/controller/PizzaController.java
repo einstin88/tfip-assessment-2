@@ -36,11 +36,22 @@ public class PizzaController {
             Model model) {
         Basket basket = (Basket) session.getAttribute("basket");
         if (basket == null) {
-            basket = new Basket();
+            basket = new Basket("dummy", "dummy", 1);
             session.setAttribute("basket", basket);
         }
         model.addAttribute("basket", basket);
         return "index";
+    }
+
+    /*
+     * Handles cancelling of order basket
+     */
+    @GetMapping("cancel")
+    public String cancelOrder(
+        HttpSession session
+    ) {
+        session.invalidate();
+        return "redirect:/";
     }
 
     /*
@@ -62,6 +73,7 @@ public class PizzaController {
 
             return "delivery-details";
         }
+        logger.error("-- Validation of received basket FAILED with %d errors".formatted(result.getAllErrors().size()));
         return "index";
     }
 

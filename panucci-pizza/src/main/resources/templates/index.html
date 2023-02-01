@@ -15,13 +15,13 @@
     <form method="post" action="/pizza" data-th-object="${basket}">
       <div>
         <h2>Select a pizza</h2>
-        <div data-th-if="${#fields.hasErrors('*')}">
+        <div data-th-if="${#fields.hasErrors('*')}" class="error">
           <ol>
-            <li data-th-each="err : ${#fields.detailedErrors()}" class="error">
-              <span
-                data-th-text="${err.fieldName} + ':  ' + ${err.message}"
-              ></span>
-            </li>
+            <u>INPUT ERROR:</u>
+            <li
+              data-th-each="err : ${#fields.detailedErrors()}"
+              data-th-utext="${err.fieldName} + ':  ' + ${err.message}"
+            ></li>
           </ol>
         </div>
         <table>

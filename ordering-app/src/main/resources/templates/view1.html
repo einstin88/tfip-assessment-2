@@ -12,7 +12,12 @@
 
     <h1>Shopping Cart</h1>
 
-    <form action="#" data-th-action="@{'/add-item'}" method="post">
+    <form
+      action="#"
+      data-th-action="@{'/add-item'}"
+      method="post"
+      id="itemForm"
+    >
       <div data-th-object="${cartItem}">
         <div data-th-if="${#fields.hasAnyErrors()}" style="color: red">
           <h3>Error(s):</h3>
@@ -29,7 +34,7 @@
             <td>Item:</td>
             <td>
               <select data-th-field="*{item}">
-				<option value=""></option>
+                <option value=""></option>
                 <option value="apple">Apple</option>
                 <option value="orange">Orange</option>
                 <option value="bread">Bread</option>
@@ -73,11 +78,15 @@
           </tbody>
         </table>
       </div>
-
-      <div>
-        <button type="submit">Add</button>
-        <button type="submit" formaction="/shippingaddress">Next</button>
-      </div>
     </form>
+    <div>
+      <button type="submit" form="itemForm">Add</button>
+      <button
+        type="submit"
+        onclick="location.href='/shippingaddress'"
+      >
+        Next
+      </button>
+    </div>
   </body>
 </html>

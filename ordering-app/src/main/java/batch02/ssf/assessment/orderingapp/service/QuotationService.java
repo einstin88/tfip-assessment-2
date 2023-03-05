@@ -61,7 +61,7 @@ public class QuotationService {
         ResponseEntity<String> response = template.exchange(request, String.class);
 
         if (response.getStatusCode() != HttpStatus.OK) 
-            throw new Exception("");
+            throw new Exception(response.getBody());
 
         log.info("<<< Received quotations: " + response.getBody());
 

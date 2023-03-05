@@ -108,7 +108,7 @@ public class PurchaseOrderController {
         return "view2";
     }
 
-    @PostMapping(path = "/shippingaddress")
+    @PostMapping(path = "/shippingaddress", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String postShippingAddress(
             @Valid ShippingForm shippingForm,
             BindingResult result,
@@ -139,7 +139,7 @@ public class PurchaseOrderController {
             result.addError(new FieldError(
                     "QuotationError",
                     "global",
-                    "Couldn't get quotations"));
+                    "Couldn't get quotations. " + e.getMessage()));
             return "view2";
         }
 

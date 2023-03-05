@@ -42,8 +42,6 @@ public class PurchaseOrderController {
 
         log.info(">>> Requesting landing page...");
 
-        // session.invalidate();
-
         Map<String, Integer> cart = getSessionCart(session);
 
         model.addAttribute("cart", cart);
@@ -102,10 +100,7 @@ public class PurchaseOrderController {
         // Checks for valid cart in session
         Map<String, Integer> cart = getSessionCart(session);
         if (cart.size() == 0) {
-            model.addAttribute("cart", cart);
-            model.addAttribute("cartItem", new CartItem("", null));
-
-            return "view1";
+            return "redirect:/";
         }
 
         model.addAttribute("shippingForm", new ShippingForm("", ""));
@@ -113,7 +108,7 @@ public class PurchaseOrderController {
         return "view2";
     }
 
-    @PostMapping(path = "/quotation")
+    @PostMapping(path = "/shippingaddress")
     public String postShippingAddress(
             @Valid ShippingForm shippingForm,
             BindingResult result,
@@ -132,10 +127,7 @@ public class PurchaseOrderController {
         // Checks for valid cart in session
         Map<String, Integer> cart = getSessionCart(session);
         if (cart.size() == 0) {
-            model.addAttribute("cart", cart);
-            model.addAttribute("cartItem", new CartItem("", null));
-
-            return "view1";
+            return "redirect:/";
         }
 
         // Make api call to Qsys
@@ -167,7 +159,7 @@ public class PurchaseOrderController {
         Map<String, Integer> cart;
 
         if (null == (cart = (Map<String, Integer>) session.getAttribute(Consts.SESS_CART))) {
-            log.debug(">>> Starting new session...");
+            log.info(">>> Starting new session...");
             cart = new HashMap<>();
         }
 

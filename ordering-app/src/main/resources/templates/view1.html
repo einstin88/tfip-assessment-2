@@ -59,10 +59,10 @@
         </table>
       </div>
 
-      <div data-th-if="${cart.size} == 0">
+      <div data-th-if="${cart.isEmpty()}">
         <h3>Your cart is currently empty.</h3>
       </div>
-      <div data-th-unless="${cart.size() == 0}">
+      <div data-th-unless="${cart.isEmpty()}">
         <table border="1" style="margin-top: 2vh; margin-bottom: 2vh">
           <thead>
             <tr>

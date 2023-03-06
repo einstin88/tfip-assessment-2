@@ -69,7 +69,6 @@ public class PurchaseOrderController {
 
         // Validate if submitted item is in stock
         // If validation fails, produce the error to display
-        log.debug(">>> Validating submitted item form...");
         svc.validateCartItem(cartItem, result);
         if (result.hasErrors()) {
             log.error("--- Invalid item form submitted");
@@ -80,7 +79,7 @@ public class PurchaseOrderController {
         }
 
         // Adds item to cart if validation is ok
-        log.debug("+++ Validation successful.. Adding item to cart");
+        log.info("+++ Validation successful.. Adding item to cart");
         cart = svc.addItemToCart(cartItem, cart);
         session.setAttribute(Consts.SESS_CART, cart);
 
@@ -99,7 +98,7 @@ public class PurchaseOrderController {
 
         // Checks for valid cart in session
         Map<String, Integer> cart = getSessionCart(session);
-        if (cart.size() == 0) {
+        if (cart.isEmpty()) {
             return "redirect:/";
         }
 
@@ -115,6 +114,12 @@ public class PurchaseOrderController {
             HttpSession session,
             Model model) {
 
+        // Checks for valid cart in session
+        Map<String, Integer> cart = getSessionCart(session);
+        if (cart.isEmpty()) {
+            return "redirect:/";
+        }
+
         log.info(">>> POST request for submitting shipping address...");
         log.info(">>> Received shipping form: " + shippingForm.toString());
 
@@ -124,17 +129,13 @@ public class PurchaseOrderController {
             return "view2";
         }
 
-        // Checks for valid cart in session
-        Map<String, Integer> cart = getSessionCart(session);
-        if (cart.size() == 0) {
-            return "redirect:/";
-        }
-
         // Make api call to Qsys
         log.info("+++ Validation successful. Proceeding to generate order...");
         Quotation quotation;
         try {
-            quotation = svc.getQuotations(Utils.createCartList(getSessionCart(session)));
+            quotation = svc.getQuotations(
+                    Utils.createCartList(getSessionCart(session)));
+                    
         } catch (Exception e) {
             result.addError(new FieldError(
                     "QuotationError",

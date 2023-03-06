@@ -60,10 +60,15 @@ public class QuotationService {
 
         ResponseEntity<String> response = template.exchange(request, String.class);
 
-        if (response.getStatusCode() != HttpStatus.OK) 
+        if (response.getStatusCode() != HttpStatus.OK)
             throw new Exception(response.getBody());
 
         log.info("<<< Received quotations: " + response.getBody());
+
+        // This will work but I don't think it can capture the error message
+        // ResponseEntity<QuotationResponse> testResponse = template.exchange(request,
+        // QuotationResponse.class);
+        // log.info(">> test: " + testResponse.getBody().toString());
 
         return Utils.createQuotation(response.getBody());
     }

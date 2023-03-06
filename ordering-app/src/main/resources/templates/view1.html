@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View 1</title>
+  </head>
+  <body>
+    <!--
+			Feel free to make changes to this HTML but do no change the option in select
+		-->
+
+    <h1>Shopping Cart</h1>
+
+    <form
+      action="#"
+      data-th-action="@{'/add-item'}"
+      method="post"
+      id="itemForm"
+    >
+      <div data-th-object="${cartItem}">
+        <div data-th-if="${#fields.hasAnyErrors()}" style="color: red">
+          <h3>Error(s):</h3>
+          <ol>
+            <li
+              data-th-each="err : ${#fields.allErrors()}"
+              data-th-utext="${err}"
+            ></li>
+          </ol>
+        </div>
+
+        <table>
+          <tr>
+            <td>Item:</td>
+            <td>
+              <select data-th-field="*{item}">
+                <option value=""></option>
+                <option value="apple">Apple</option>
+                <option value="orange">Orange</option>
+                <option value="bread">Bread</option>
+                <option value="cheese">Cheese</option>
+                <option value="chicken">Chicken</option>
+                <option value="mineral_water">Mineral Water</option>
+                <option value="instant_noodles">Instant Noodles</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Quantity:</td>
+            <td>
+              <input
+                type="number"
+                data-th-field="*{quantity}"
+                size="4"
+                placeholder="Quantity"
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div data-th-if="${cart.isEmpty()}">
+        <h3>Your cart is currently empty.</h3>
+      </div>
+      <div data-th-unless="${cart.isEmpty()}">
+        <table border="1" style="margin-top: 2vh; margin-bottom: 2vh">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-th-each="cartItem: ${cart.keySet()}">
+              <td data-th-text="${cartItem}"></td>
+              <td data-th-text="*{cart.get(cartItem)}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <div>
+      <button type="submit" form="itemForm">Add</button>
+      <button
+        type="submit"
+        onclick="location.href='/shippingaddress'"
+      >
+        Next
+      </button>
+    </div>
+  </body>
+</html>

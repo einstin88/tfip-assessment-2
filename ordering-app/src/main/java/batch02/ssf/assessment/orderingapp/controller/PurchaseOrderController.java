@@ -97,8 +97,7 @@ public class PurchaseOrderController {
         log.info(">>> Requesting shipping address form...");
 
         // Checks for valid cart in session
-        Map<String, Integer> cart = getSessionCart(session);
-        if (cart.isEmpty()) {
+        if (getSessionCart(session).isEmpty()) {
             return "redirect:/";
         }
 

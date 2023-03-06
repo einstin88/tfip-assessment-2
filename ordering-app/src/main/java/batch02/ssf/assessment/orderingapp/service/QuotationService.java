@@ -42,8 +42,10 @@ public class QuotationService {
             CartItem item,
             Map<String, Integer> cart) {
 
-        Integer quantity = cart.getOrDefault(item.item(), 0) + item.quantity();
-        cart.put(item.item(), quantity);
+        String itemName = item.item();
+
+        Integer quantity = cart.getOrDefault(itemName, 0) + item.quantity();
+        cart.put(itemName, quantity);
 
         return cart;
     }

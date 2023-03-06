@@ -73,7 +73,7 @@
           <tbody>
             <tr data-th-each="cartItem: ${cart.keySet()}">
               <td data-th-text="${cartItem}"></td>
-              <td data-th-text="*{cart.get(cartItem)}"></td>
+              <td data-th-text="${cart.get(cartItem)}"></td>
             </tr>
           </tbody>
         </table>

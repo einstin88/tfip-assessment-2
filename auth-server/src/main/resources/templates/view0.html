@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View-0</title>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <form action="/login" method="post" data-th-object="${loginForm}">
+      <div data-th-if="${#fields.hasAnyErrors()}" style="color: red">
+        <h2>Error(s):</h2>
+        <ul>
+          <li
+            data-th-each="err : ${#fields.allErrors()}"
+            data-th-text="${err}"
+          ></li>
+        </ul>
+      </div>
+      <table>
+        <tr>
+          <td>Username:</td>
+          <td><input type="text" data-th-field="*{username}" /></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input type="password" data-th-field="*{password}" /></td>
+        </tr>
+        <tr></tr>
+        <div data-th-if="${captcha} != null" >
+          <tr>
+            <td></td>
+            <td>
+              <b>
+                What is [[${captcha.a}]] [[${captcha.operator}]]
+                [[${captcha.b}]]?
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Answer:</td>
+            <td><input type="number" step="1" data-th-field="*{captcha}" /></td>
+          </tr>
+        </div>
+        <tr>
+          <td></td>
+          <td><button type="submit">Login</button></td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

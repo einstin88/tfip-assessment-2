@@ -38,7 +38,7 @@ public class AuthenticationService {
                 .fromHttpUrl(URL)
                 .build().toUri();
 
-        RequestEntity<?> request = RequestEntity
+        RequestEntity<String> request = RequestEntity
                 .post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class AuthenticationService {
         repo.setUserDisabled(username);
     }
 
-    public Boolean getUserDisabled(String username) {
+    public Boolean isUserDisabled(String username) {
         return repo.getUserDisabled(username);
     }
 }

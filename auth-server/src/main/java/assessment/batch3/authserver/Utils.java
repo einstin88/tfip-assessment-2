@@ -17,8 +17,8 @@ public class Utils {
                 .build().toString();
     }
 
-    // Generate new captcha object will all parameters
-    public static Captcha newCaptcha() {
+    // Generate new captcha object with all parameters
+    public static Captcha newRandomCaptcha() {
         Random rand = new SecureRandom();
 
         Integer a = generateRandomNumber(50);

@@ -26,11 +26,16 @@ import jakarta.validation.Valid;
 public class FrontController {
     private static final Logger log = LoggerFactory.getLogger(FrontController.class);
 
-    private static final String AUTH_STATUS = "auth_status"; // boolean val
+    /*
+     * Tracking of app states:
+     * 1) Session-managed states = authenticated status (10mins), captcha answer
+     * 2) Redis-managed states = login attempts (30mins), locked out status (30mins)
+     */
+    private static final String AUTH_STATUS = "auth_status"; // a session key w/ boolean val
     private static final Integer AUTH_TIMEOUT = 600; // in seconds
     private static final Integer LOGIN_LIMIT = 3;
 
-    private static final String CAPTCHA = "captcha"; // double val
+    private static final String CAPTCHA = "captcha"; // a session key w/ double val
 
     @Autowired
     private AuthenticationService svc;
@@ -55,14 +60,14 @@ public class FrontController {
         log.info(">>> Login attempt by: " + loginForm);
 
         // Check if user is disabled
-        Boolean isDisabled = svc.getUserDisabled(loginForm.username()); 
+        Boolean isDisabled = svc.isUserDisabled(loginForm.username()); 
         if (isDisabled != null && isDisabled)
             return "view2";
 
         /*
-         * - Check captcha if it exists.
-         * - If exist & correctly answered, remove answer from session
+         * - Check if captcha exists.
          * - If exist & wrongly answered, +1 login attempt
+         * - If exist & correctly answered, remove answer from session
          */
         Double captchaAnswer = (Double) session.getAttribute(CAPTCHA);
         if (captchaAnswer != null && captchaAnswer != loginForm.captcha()) {
@@ -82,9 +87,9 @@ public class FrontController {
 
         /*
          * Attempts to authenticate the credentials
-         * - failed authentication will throw an error and handled by this following
-         * catch block
          * - successful authentication will be redirected to success page
+         * - failed authentication will throw an error and handled by the following
+         * catch block
          */
         try {
             log.info(">>> Form validation successful. Proceeding with authentication.");
@@ -102,10 +107,13 @@ public class FrontController {
         }
     }
 
+    /*
+     * Protected resource that can only be accessed if authenticated
+     */
     @GetMapping("/protected")
     public String getProtectedContent(HttpSession session) {
-        Boolean authenticated = (Boolean) session.getAttribute(AUTH_STATUS);
 
+        Boolean authenticated = (Boolean) session.getAttribute(AUTH_STATUS);
         if (authenticated == null || !authenticated)
             return "redirect:/";
 
@@ -114,11 +122,15 @@ public class FrontController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+        
         session.removeAttribute(AUTH_STATUS);
-
         return "redirect:/";
     }
 
+    /*
+     * Helper function to reduce code repetition in the login logic
+     * - keeps record of a username's login attempt for 30mins on redis
+     */
     private String handleFailedLoginOrCaptcha(
             LoginForm loginForm,
             Model model,
@@ -135,8 +147,11 @@ public class FrontController {
         return "view0";
     }
 
+    /*
+     * Simple function to create a new random captcha
+     */
     private void addCaptcha(Model model, HttpSession session) {
-        Captcha newCaptcha = Utils.newCaptcha();
+        Captcha newCaptcha = Utils.newRandomCaptcha();
         model.addAttribute("captcha", newCaptcha);
         session.setAttribute(CAPTCHA, newCaptcha.answer());
 
